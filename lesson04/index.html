@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课04.理解Redux里的Action</title>
+    <script src="./lib/redux.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    const { createStore } = Redux;
+    function couter(state=0,action){
+        switch(action.type){
+            case "add":
+                return state + 1;
+            case "addCount":
+                return state + action.count
+            case "sub":
+                return state - 1;
+            default:
+                return state;
+        }
+    }
+    const store = createStore(couter);
+
+</script>
+</body>
+</html>

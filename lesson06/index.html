@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课06.理解Redux里的Store</title>
+    <script src="./lib/redux.js"></script>
+</head>
+<body>
+    <h1 id="count">？</h1>
+    <button id="add">添加</button>
+    <button id="sub">减少</button>
+    <input id="name">
+    <button id="saveName">保存</button>
+<script type="text/javascript">
+    const { createStore,combineReducers } = Redux;
+    const elCount = document.getElementById("count");
+    const elBtnAdd = document.getElementById("add");
+    const elBtnSub = document.getElementById("sub");
+    const elInputName = document.getElementById("name");
+    const elBtnSaveName = document.getElementById("saveName");
+
+    //reducer
+    function couter(state=0,action){
+        switch(action.type){
+            case "add":
+                return state + 1;
+            case "addCount":
+                return state + action.count
+            case "sub":
+                return state - 1;
+            default:
+                return state;
+        }
+    }
+
+    function user(state="无名",action){
+        switch(action.type){
+            case "set":
+                return action.name;
+            default:
+                return state;
+        }
+    }
+
+    window.severState = {
+        couter:5,
+        user: "张三"
+    }
+
+    const store = createStore(combineReducers({
+        couter: couter,
+        user: user
+    }),severState);
+
+    function updateUI(){
+        const state = store.getState()
+        console.log(state);
+        elCount.innerHTML = state.user+":"+state.couter;
+    }
+    store.subscribe(updateUI);
+    updateUI();
+
+    const addAction = { type:"add" };
+    const subAction = { type:"sub" };
+
+    elBtnAdd.addEventListener('click',function(){
+        store.dispatch(addAction);
+    });
+    
+    elBtnSub.addEventListener('click',function(){
+        store.dispatch(subAction);
+    });
+    
+    elBtnSaveName.addEventListener('click',function(){
+        store.dispatch({
+            type:"set",
+            name:elInputName.value,
+        });
+    });
+    
+</script>
+</body>
+</html>

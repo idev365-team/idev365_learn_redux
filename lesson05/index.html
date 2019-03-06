@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课05.理解Redux里的Reducer</title>
+    <script src="./lib/redux.js"></script>
+</head>
+<body>
+    <h1 id="count">？</h1>
+    <button id="add">添加</button>
+    <button id="sub">减少</button>
+<script type="text/javascript">
+    const { createStore } = Redux;
+    const elCount = document.getElementById("count");
+    const elBtnAdd = document.getElementById("add");
+    const elBtnSub = document.getElementById("sub");
+
+    //reducer
+    function couter(state=0,action){
+        switch(action.type){
+            case "add":
+                return state + 1;
+            case "addCount":
+                return state + action.count
+            case "sub":
+                return state - 1;
+            default:
+                return state;
+        }
+    }
+    const store = createStore(couter);
+
+    function updateUI(){
+        const count = store.getState()
+        elCount.innerHTML = count;
+    }
+    store.subscribe(updateUI);
+
+    const addAction = { type:"add" };
+    const subAction = { type:"sub" };
+
+    elBtnAdd.addEventListener('click',function(){
+        store.dispatch(addAction);
+    });
+    
+    elBtnSub.addEventListener('click',function(){
+        store.dispatch(subAction);
+    });
+    
+</script>
+</body>
+</html>
